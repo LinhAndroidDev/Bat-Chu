@@ -1,0 +1,192 @@
+package com.example.batchu
+
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.view.View
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.example.batchu.databinding.ActivityMainBinding
+import com.example.batchu.models.Question
+
+class MainActivity : AppCompatActivity() {
+    private var binding: ActivityMainBinding? = null
+    private lateinit var question: Question
+    private var currentAnswerIndex = 0
+    private val suggestViews = mutableListOf<View>() // Lưu tất cả view trong viewSuggest
+    
+    @SuppressLint("InflateParams", "MissingInflatedId")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
+
+        resetGame()
+
+        binding?.reset?.setOnClickListener {
+            resetGame()
+        }
+    }
+    
+    private fun moveItemToAnswer(clickedView: View, character: String) {
+        // Tạo view mới để di chuyển
+        val movingView = layoutInflater.inflate(R.layout.item_suggest, binding?.main, false)
+        movingView.findViewById<TextView>(R.id.txtSuggest).text = character
+        
+        // Lấy vị trí của view được click trong viewSuggest
+        val location = IntArray(2)
+        clickedView.getLocationInWindow(location)
+        val parentLocation = IntArray(2)
+        binding?.main?.getLocationInWindow(parentLocation)
+        movingView.x = location[0] - parentLocation[0].toFloat()
+        movingView.y = location[1] - parentLocation[1].toFloat()
+        
+        // Thêm movingView vào main layout
+        binding?.main?.addView(movingView)
+        
+        // Lấy vị trí đích (ô trống đầu tiên trong viewAnswer)
+        val targetView = binding?.viewAnswer?.getChildAt(currentAnswerIndex)
+        val targetLocation = IntArray(2)
+        targetView?.getLocationInWindow(targetLocation)
+        val destX = targetLocation[0] - parentLocation[0]
+        val destY = targetLocation[1] - parentLocation[1]
+
+        AnimationUtils.moveItem(movingView, destX, destY, start = {
+            // Ẩn view gốc trong viewSuggest
+            clickedView.visibility = View.INVISIBLE
+        }, end = {
+            // Xóa movingView khỏi main layout
+            binding?.main?.removeView(movingView)
+
+            // Tạo view mới trong viewAnswer
+            val answerView =
+                layoutInflater.inflate(R.layout.item_suggest, binding?.viewAnswer, false)
+            answerView.findViewById<TextView>(R.id.txtSuggest).text = character
+
+            // Thêm click listener để có thể di chuyển ngược lại
+            answerView.setOnClickListener {
+                moveItemBackToSuggest(answerView, character, clickedView, currentAnswerIndex)
+            }
+
+            // Thay thế ô trống bằng view có ký tự
+            binding?.viewAnswer?.removeViewAt(currentAnswerIndex)
+            binding?.viewAnswer?.addView(answerView, currentAnswerIndex)
+
+            // Tăng index cho lần tiếp theo
+            currentAnswerIndex++
+
+            // Kiểm tra nếu đã hoàn thành
+            if (currentAnswerIndex >= question.answer.length) {
+                checkAnswer()
+            }
+        })
+    }
+
+    private fun moveItemBackToSuggest(
+        clickedView: View,
+        character: String,
+        originalView: View,
+        answerIndex: Int
+    ) {
+        // Tạo view mới để di chuyển
+        val movingView = layoutInflater.inflate(R.layout.item_suggest, binding?.main, false)
+        movingView.findViewById<TextView>(R.id.txtSuggest).text = character
+
+        // Lấy vị trí của view được click trong viewAnswer
+        val location = IntArray(2)
+        clickedView.getLocationInWindow(location)
+        val parentLocation = IntArray(2)
+        binding?.main?.getLocationInWindow(parentLocation)
+        movingView.x = location[0] - parentLocation[0].toFloat()
+        movingView.y = location[1] - parentLocation[1].toFloat()
+
+        // Thêm movingView vào main layout
+        binding?.main?.addView(movingView)
+
+        // Lấy vị trí đích (vị trí ban đầu trong viewSuggest)
+        val targetLocation = IntArray(2)
+        originalView.getLocationInWindow(targetLocation)
+        val destX = targetLocation[0] - parentLocation[0]
+        val destY = targetLocation[1] - parentLocation[1]
+
+        AnimationUtils.moveItem(movingView, destX, destY, start = {
+            // Ẩn view trong viewAnswer
+            clickedView.visibility = View.INVISIBLE
+
+            // Thay thế view trong viewAnswer bằng ô trống
+            val answerEmpty =
+                layoutInflater.inflate(R.layout.item_answer_empty, binding?.viewAnswer, false)
+            binding?.viewAnswer?.removeViewAt(answerIndex - 1)
+            binding?.viewAnswer?.addView(answerEmpty, answerIndex - 1)
+
+            // Giảm index
+            currentAnswerIndex--
+        }, end = {
+            // Xóa movingView khỏi main layout
+            binding?.main?.removeView(movingView)
+
+            // Hiện lại view gốc trong viewSuggest
+            originalView.visibility = View.VISIBLE
+        })
+    }
+    
+    private fun checkAnswer() {
+        val userAnswer = StringBuilder()
+        for (i in 0 until 6) {
+            val child = binding?.viewAnswer?.getChildAt(i)
+            if (child is TextView) {
+                userAnswer.append(child.text)
+            }
+        }
+        
+//         Kiểm tra câu trả lời
+        if (userAnswer.toString().lowercase() == question.answer.lowercase()) {
+
+        } else {
+//          Sai - có thể reset hoặc hiển thị thông báo
+            binding?.viewAnswer?.shakeView()
+        }
+    }
+    
+    private fun resetGame() {
+        question = questions.shuffled()[0]
+
+        // Reset game về trạng thái ban đầu
+        currentAnswerIndex = 0
+        
+        // Xóa tất cả view trong viewAnswer
+        binding?.viewAnswer?.removeAllViews()
+
+        // Xóa tất cả view trong viewSuggest
+        binding?.viewSuggest?.removeAllViews()
+
+        binding?.imageDescription?.setImageResource(question.photoDescription)
+
+        for (i in 0 until question.answer.length) {
+            val answerEmpty = layoutInflater.inflate(R.layout.item_answer_empty, binding?.viewAnswer, false)
+            binding?.viewAnswer?.addView(answerEmpty)
+        }
+
+        // Tạo các gợi ý từ kết quả
+        question.question.split("").shuffled().forEach { c ->
+            if (c.isNotEmpty()) {
+                val answer = layoutInflater.inflate(R.layout.item_suggest, binding?.viewSuggest, false)
+                answer.findViewById<TextView>(R.id.txtSuggest).text = c
+                binding?.viewSuggest?.addView(answer)
+
+                // Lưu view vào danh sách
+                suggestViews.add(answer)
+
+                answer.setOnClickListener {
+                    if (currentAnswerIndex < question.answer.length) {
+                        moveItemToAnswer(answer, c)
+                    }
+                }
+            }
+        }
+        
+        // Hiện lại tất cả view trong viewSuggest
+        suggestViews.forEach { view ->
+            view.visibility = View.VISIBLE
+        }
+    }
+}

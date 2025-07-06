@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/viewAnswerEmpty"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bg_view_answer_empty"
+    android:layout_width="35dp"
+    android:layout_height="35dp"
+    android:orientation="vertical"/>
