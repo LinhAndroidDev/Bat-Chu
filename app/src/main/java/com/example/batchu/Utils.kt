@@ -103,6 +103,116 @@ val questions = listOf(
         photoDescription = R.drawable.image_tien_cham_hau_tau,
         answer = "TIENCHAMHAUTAU"
     ),
+    Question(
+        question = "AOGIACUIGHBNAE",
+        photoDescription = R.drawable.image_ao_giac,
+        answer = "AOGIAC"
+    ),
+    Question(
+        question = "BAOQUATOIUKJTE",
+        photoDescription = R.drawable.image_bao_quat,
+        answer = "BAOQUAT"
+    ),
+    Question(
+        question = "BONGBAYTIEUHOA",
+        photoDescription = R.drawable.image_bong_bay,
+        answer = "BONGBAY"
+    ),
+    Question(
+        question = "CANBANGUIGHYTE",
+        photoDescription = R.drawable.image_can_bang,
+        answer = "CANBANG"
+    ),
+    Question(
+        question = "CAOBIETPIYETC",
+        photoDescription = R.drawable.image_cao_biet,
+        answer = "CAOBIET"
+    ),
+    Question(
+        question = "CAOBUOCKUEUTH",
+        photoDescription = R.drawable.image_cao_buoc,
+        answer = "CAOBUOC"
+    ),
+    Question(
+        question = "CHAMCONGYTEOAH",
+        photoDescription = R.drawable.image_cham_cong,
+        answer = "CHAMCONG"
+    ),
+    Question(
+        question = "CHAUCHAUDAXEPOUYNEMKI",
+        photoDescription = R.drawable.image_chau_chau_da_xe,
+        answer = "CHAUCHAUDAXE"
+    ),
+    Question(
+        question = "CONGBOKEPOLBA",
+        photoDescription = R.drawable.image_cong_bo,
+        answer = "CONGBO"
+    ),
+    Question(
+        question = "DAMBUTOIKHUYB",
+        photoDescription = R.drawable.image_dam_but,
+        answer = "DAMBUT"
+    ),
+    Question(
+        question = "DONGCAMCONGKHOPOUENHADPWI",
+        photoDescription = R.drawable.image_dong_cam_cong_kho,
+        answer = "DONGCAMCONGKHO"
+    ),
+    Question(
+        question = "GIAYBACPOLKAEUM",
+        photoDescription = R.drawable.image_giay_bac,
+        answer = "GIAYBAC"
+    ),
+    Question(
+        question = "HOAHAUMLUEANJWP",
+        photoDescription = R.drawable.image_hoa_hau,
+        answer = "HOAHAU"
+    ),
+    Question(
+        question = "HUNGTHUPOLKEABE",
+        photoDescription = R.drawable.image_hung_thu,
+        answer = "HUNGTHU"
+    ),
+    Question(
+        question = "KEDONLEOIBHTA",
+        photoDescription = R.drawable.image_ke_don,
+        answer = "KEDON"
+    ),
+    Question(
+        question = "LACDANQUETAGUI",
+        photoDescription = R.drawable.image_lac_dan,
+        answer = "LACDAN"
+    ),
+    Question(
+        question = "MENMOMKTHUONGI",
+        photoDescription = R.drawable.image_men_mo,
+        answer = "MENMO"
+    ),
+    Question(
+        question = "MIQUANMEUKHILA",
+        photoDescription = R.drawable.image_mi_quan,
+        answer = "MIQUAN"
+    ),
+    Question(
+        question = "NEMDAGIAUTAYKHONGTHETHAYNGUOI",
+        photoDescription = R.drawable.image_nem_da_giau_tay,
+        answer = "NEMDAGIAUTAY"
+    ),
+    Question(
+        question = "NOITHATBAITINHKINH",
+        photoDescription = R.drawable.image_noi_that,
+        answer = "NOITHAT"
+    ),
+    Question(
+        question = "SOCTRANGLOKEBHAU",
+        photoDescription = R.drawable.image_soc_trang,
+        answer = "SOCTRANG"
+    ),
+    Question(
+        question = "THANBIPOLEANHTY",
+        photoDescription = R.drawable.image_than_bi,
+        answer = "THANBI"
+    ),
 )
 
 fun View.shakeView() {
