@@ -3,13 +3,15 @@ package com.example.batchu
 import android.animation.ObjectAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.example.batchu.models.Question
 
 val questions = listOf(
     Question(
         question = "BAOCAOHTEBURNY",
         photoDescription = R.drawable.image_bao_cao,
-        answer = "BA0CAO"
+        answer = "BAOCAO"
     ),
     Question(
         question = "CADAOORUBCMSUE",
@@ -52,4 +54,16 @@ fun View.shakeView() {
     animator.duration = 600
     animator.interpolator = AccelerateDecelerateInterpolator()
     animator.start()
+}
+
+fun LinearLayout.countTextView(): Int {
+    var textViewCount = 0
+
+    for (i in 0 until this.childCount) {
+        val child = this.getChildAt(i)
+        if (child is TextView) {
+            textViewCount++
+        }
+    }
+    return textViewCount
 }
