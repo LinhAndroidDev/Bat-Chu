@@ -21,14 +21,15 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"/>
 
-        <LinearLayout
+        <GridLayout
             android:id="@+id/viewAnswer"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            android:columnCount="7"/>
 
         <GridLayout
             android:id="@+id/viewSuggest"
@@ -43,7 +44,7 @@
         android:id="@+id/reset"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
-        android:text="Reset"
+        android:text="Câu tiếp theo"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

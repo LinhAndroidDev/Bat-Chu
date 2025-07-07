@@ -1,24 +1,49 @@
 package com.example.batchu
 
 import android.annotation.SuppressLint
+import android.media.SoundPool
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.batchu.databinding.ActivityMainBinding
 import com.example.batchu.models.Question
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.emitter.Emitter
+import nl.dionsegijn.konfetti.xml.KonfettiView
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
     private lateinit var question: Question
     private val suggestViews = mutableListOf<View>() // Lưu tất cả view trong viewSuggest
     private var stateAnswers = mutableListOf<Boolean>() // Lưu trạng thái của các ô viewAnswer true is filled, false is empty
+    private var questionGames = mutableListOf<Question>()
+    private var indexQuestion = -1
+    private val party = Party(
+        speed = 0f,
+        maxSpeed = 30f,
+        damping = 0.9f,
+        spread = 360,
+        colors = listOf(0xff1744, 0xff9100, 0x00e676, 0xf2979ff, 0xd500f9, 0xffea00, 0x00e5ff, 0xff4081),
+        emitter = Emitter(duration = 100, TimeUnit.MILLISECONDS).max(100),
+        position = Position.Relative(0.5, 0.3)
+    )
+    private var celebration: KonfettiView? = null
+    private var soundPool: SoundPool? = null
+    private var winSound: Int = 0
     
     @SuppressLint("InflateParams", "MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        questionGames = questions.shuffled().toMutableList()
+        soundPool = SoundPool.Builder().setMaxStreams(5).build()
+        winSound = soundPool?.load(this, R.raw.pass_20, 1) ?: 0
 
         resetGame()
 
@@ -147,7 +172,16 @@ class MainActivity : AppCompatActivity() {
         
 //         Kiểm tra câu trả lời
         if (userAnswer.toString().lowercase() == question.answer.lowercase()) {
-
+            soundPool?.play(winSound, 1f, 1f, 1, 0, 1f)
+            celebration = KonfettiView(this, null, 0)
+            celebration?.setBackgroundResource(android.R.color.transparent)
+            celebration?.layoutParams =
+                ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+            celebration?.start(party)
+            binding?.main?.addView(celebration)
         } else {
 //          Sai - có thể reset hoặc hiển thị thông báo
             binding?.viewAnswer?.shakeView()
@@ -155,7 +189,12 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun resetGame() {
-        question = questions.shuffled()[0]
+        if (indexQuestion >= questionGames.size - 1) {
+            indexQuestion = 0
+        } else {
+            indexQuestion++
+        }
+        question = questionGames[indexQuestion]
 
         // Reset game về trạng thái ban đầu
         stateAnswers.clear()

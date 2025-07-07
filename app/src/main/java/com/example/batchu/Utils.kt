@@ -3,7 +3,7 @@ package com.example.batchu
 import android.animation.ObjectAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.LinearLayout
+import android.widget.GridLayout
 import android.widget.TextView
 import com.example.batchu.models.Question
 
@@ -42,7 +42,67 @@ val questions = listOf(
         question = "YEUOTEMKAUOT",
         photoDescription = R.drawable.image_yeu_ot,
         answer = "YEUOT"
-    )
+    ),
+    Question(
+        question = "BAOTHUCUREMOHA",
+        photoDescription = R.drawable.image_bao_thuc,
+        answer = "BAOTHUC"
+    ),
+    Question(
+        question = "CATINHIQIOLP",
+        photoDescription = R.drawable.image_ca_tinh,
+        answer = "CATINH"
+    ),
+    Question(
+        question = "CUNGCAULENHUOP",
+        photoDescription = R.drawable.image_cung_cau,
+        answer = "CUNGCAU"
+    ),
+    Question(
+        question = "DAUTHUMAEYREB",
+        photoDescription = R.drawable.image_dau_thu,
+        answer = "DAUTHU"
+    ),
+    Question(
+        question = "GOKIENLKTERAP",
+        photoDescription = R.drawable.image_go_kien,
+        answer = "GOKIEN"
+    ),
+    Question(
+        question = "HAMAOLIYEEMMHO",
+        photoDescription = R.drawable.image_ha_ma,
+        answer = "HAMA"
+    ),
+    Question(
+        question = "KIENTHUCKAUOTI",
+        photoDescription = R.drawable.image_kien_thuc,
+        answer = "KIENTHUC"
+    ),
+    Question(
+        question = "KINHDOCAUNGOIP",
+        photoDescription = R.drawable.image_kinh_do,
+        answer = "KINHDO"
+    ),
+    Question(
+        question = "NOIGIANDIEPMIH",
+        photoDescription = R.drawable.image_noi_gian,
+        answer = "NOIGIAN"
+    ),
+    Question(
+        question = "TATYEUTAYTHANH",
+        photoDescription = R.drawable.image_tat_yeu,
+        answer = "TATYEU"
+    ),
+    Question(
+        question = "THANTHANODENIM",
+        photoDescription = R.drawable.image_than_than,
+        answer = "THANTHAN"
+    ),
+    Question(
+        question = "TIENCHAMHAUTAUMEPOIM",
+        photoDescription = R.drawable.image_tien_cham_hau_tau,
+        answer = "TIENCHAMHAUTAU"
+    ),
 )
 
 fun View.shakeView() {
@@ -56,7 +116,7 @@ fun View.shakeView() {
     animator.start()
 }
 
-fun LinearLayout.countTextView(): Int {
+fun GridLayout.countTextView(): Int {
     var textViewCount = 0
 
     for (i in 0 until this.childCount) {
