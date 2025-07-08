@@ -3,6 +3,7 @@ package com.example.batchu
 import android.annotation.SuppressLint
 import android.media.SoundPool
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -100,7 +101,7 @@ class MainActivity : AppCompatActivity() {
 
             // Kiểm tra nếu đã hoàn thành
             val childCount = binding?.viewAnswer?.countTextView() ?: 0
-            if (childCount >= question.answer.length) {
+            if (childCount >= question.answer.replace(" ", "").length) {
                 checkAnswer()
             }
         })
@@ -171,7 +172,9 @@ class MainActivity : AppCompatActivity() {
         }
         
 //         Kiểm tra câu trả lời
-        if (userAnswer.toString().lowercase() == question.answer.lowercase()) {
+        val answer = question.answer.replace(" ", "").lowercase()
+        val removeDiacritics = removeDiacritics(answer)
+        if (userAnswer.toString().lowercase() == removeDiacritics) {
             soundPool?.play(winSound, 1f, 1f, 1, 0, 1f)
             celebration = KonfettiView(this, null, 0)
             celebration?.setBackgroundResource(android.R.color.transparent)
@@ -182,6 +185,12 @@ class MainActivity : AppCompatActivity() {
                 )
             celebration?.start(party)
             binding?.main?.addView(celebration)
+            answer.split("").filter { it.isNotEmpty() }.forEachIndexed { index, s ->
+                val answerView = binding?.viewAnswer?.getChildAt(index)
+                if (answerView is TextView) {
+                    answerView.text = s
+                }
+            }
         } else {
 //          Sai - có thể reset hoặc hiển thị thông báo
             binding?.viewAnswer?.shakeView()
@@ -204,7 +213,7 @@ class MainActivity : AppCompatActivity() {
         binding?.viewSuggest?.removeAllViews()
         binding?.imageDescription?.setImageResource(question.photoDescription)
 
-        for (i in 0 until question.answer.length) {
+        for (i in 0 until question.answer.replace(" ", "").length) {
             val answerEmpty = layoutInflater.inflate(R.layout.item_answer_empty, binding?.viewAnswer, false)
             binding?.viewAnswer?.addView(answerEmpty)
             stateAnswers.add(false)

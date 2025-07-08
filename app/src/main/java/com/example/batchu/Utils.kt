@@ -6,212 +6,224 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.GridLayout
 import android.widget.TextView
 import com.example.batchu.models.Question
+import java.text.Normalizer
+import java.util.regex.Pattern
 
 val questions = listOf(
     Question(
         question = "BAOCAOHTEBURNY",
         photoDescription = R.drawable.image_bao_cao,
-        answer = "BAOCAO"
+        answer = "BÁO CÁO"
     ),
     Question(
         question = "CADAOORUBCMSUE",
         photoDescription = R.drawable.image_ca_dao,
-        answer = "CADAO"
+        answer = "CA DAO"
     ),
     Question(
         question = "COLOAPEUGTY",
         photoDescription = R.drawable.image_co_loa,
-        answer = "COLOA"
+        answer = "CỔ LOA"
     ),
     Question(
         question = "LABANOEUBCLK",
         photoDescription = R.drawable.image_la_ban,
-        answer = "LABAN"
+        answer = "LA BÀN"
     ),
     Question(
         question = "MATMANETAGE",
         photoDescription = R.drawable.image_mat_ma,
-        answer = "MATMA"
+        answer = "MẬT MÃ"
     ),
     Question(
         question = "XAPHONGTENKLI",
         photoDescription = R.drawable.image_xa_phong,
-        answer = "XAPHONG"
+        answer = "XÀ PHÒNG"
     ),
     Question(
         question = "YEUOTEMKAUOT",
         photoDescription = R.drawable.image_yeu_ot,
-        answer = "YEUOT"
+        answer = "YẾU ỚT"
     ),
     Question(
         question = "BAOTHUCUREMOHA",
         photoDescription = R.drawable.image_bao_thuc,
-        answer = "BAOTHUC"
+        answer = "BÁO THỨC"
     ),
     Question(
         question = "CATINHIQIOLP",
         photoDescription = R.drawable.image_ca_tinh,
-        answer = "CATINH"
+        answer = "CÁ TÍNH"
     ),
     Question(
         question = "CUNGCAULENHUOP",
         photoDescription = R.drawable.image_cung_cau,
-        answer = "CUNGCAU"
+        answer = "CUNG CẦU"
     ),
     Question(
         question = "DAUTHUMAEYREB",
         photoDescription = R.drawable.image_dau_thu,
-        answer = "DAUTHU"
+        answer = "ĐẦU THÚ"
     ),
     Question(
         question = "GOKIENLKTERAP",
         photoDescription = R.drawable.image_go_kien,
-        answer = "GOKIEN"
+        answer = "GÕ KIẾN"
     ),
     Question(
         question = "HAMAOLIYEEMMHO",
         photoDescription = R.drawable.image_ha_ma,
-        answer = "HAMA"
+        answer = "HÀ MÃ"
     ),
     Question(
         question = "KIENTHUCKAUOTI",
         photoDescription = R.drawable.image_kien_thuc,
-        answer = "KIENTHUC"
+        answer = "KIẾN THỨC"
     ),
     Question(
         question = "KINHDOCAUNGOIP",
         photoDescription = R.drawable.image_kinh_do,
-        answer = "KINHDO"
+        answer = "KINH ĐỘ"
     ),
     Question(
         question = "NOIGIANDIEPMIH",
         photoDescription = R.drawable.image_noi_gian,
-        answer = "NOIGIAN"
+        answer = "NỘI GIÁN"
     ),
     Question(
         question = "TATYEUTAYTHANH",
         photoDescription = R.drawable.image_tat_yeu,
-        answer = "TATYEU"
+        answer = "TẤT YẾU"
     ),
     Question(
         question = "THANTHANODENIM",
         photoDescription = R.drawable.image_than_than,
-        answer = "THANTHAN"
+        answer = "THAN THÂN"
     ),
     Question(
         question = "TIENCHAMHAUTAUMEPOIM",
         photoDescription = R.drawable.image_tien_cham_hau_tau,
-        answer = "TIENCHAMHAUTAU"
+        answer = "TIỀN CHẢM HẬU TẤU"
     ),
     Question(
         question = "AOGIACUIGHBNAE",
         photoDescription = R.drawable.image_ao_giac,
-        answer = "AOGIAC"
+        answer = "ẢO GIÁC"
     ),
     Question(
         question = "BAOQUATOIUKJTE",
         photoDescription = R.drawable.image_bao_quat,
-        answer = "BAOQUAT"
+        answer = "BAO QUÁT"
     ),
     Question(
         question = "BONGBAYTIEUHOA",
         photoDescription = R.drawable.image_bong_bay,
-        answer = "BONGBAY"
+        answer = "BÓNG BAY"
     ),
     Question(
         question = "CANBANGUIGHYTE",
         photoDescription = R.drawable.image_can_bang,
-        answer = "CANBANG"
+        answer = "CÂN BẰNG"
     ),
     Question(
         question = "CAOBIETPIYETC",
         photoDescription = R.drawable.image_cao_biet,
-        answer = "CAOBIET"
+        answer = "CÁO BIỆT"
     ),
     Question(
         question = "CAOBUOCKUEUTH",
         photoDescription = R.drawable.image_cao_buoc,
-        answer = "CAOBUOC"
+        answer = "CÁO BUỘC"
     ),
     Question(
         question = "CHAMCONGYTEOAH",
         photoDescription = R.drawable.image_cham_cong,
-        answer = "CHAMCONG"
+        answer = "CHẤM CÔNG"
     ),
     Question(
         question = "CHAUCHAUDAXEPOUYNEMKI",
         photoDescription = R.drawable.image_chau_chau_da_xe,
-        answer = "CHAUCHAUDAXE"
+        answer = "CHÂU CHẤU ĐÁ XE"
     ),
     Question(
         question = "CONGBOKEPOLBA",
         photoDescription = R.drawable.image_cong_bo,
-        answer = "CONGBO"
+        answer = "CÔNG BỐ"
     ),
     Question(
         question = "DAMBUTOIKHUYB",
         photoDescription = R.drawable.image_dam_but,
-        answer = "DAMBUT"
+        answer = "DÂM BỤT"
     ),
     Question(
         question = "DONGCAMCONGKHOPOUENHADPWI",
         photoDescription = R.drawable.image_dong_cam_cong_kho,
-        answer = "DONGCAMCONGKHO"
+        answer = "ĐỒNG CAM CỘNG KHỔ"
     ),
     Question(
         question = "GIAYBACPOLKAEUM",
         photoDescription = R.drawable.image_giay_bac,
-        answer = "GIAYBAC"
+        answer = "GIẤY BẠC"
     ),
     Question(
         question = "HOAHAUMLUEANJWP",
         photoDescription = R.drawable.image_hoa_hau,
-        answer = "HOAHAU"
+        answer = "HOA HẬU"
     ),
     Question(
         question = "HUNGTHUPOLKEABE",
         photoDescription = R.drawable.image_hung_thu,
-        answer = "HUNGTHU"
+        answer = "HỨNG THÚ"
     ),
     Question(
         question = "KEDONLEOIBHTA",
         photoDescription = R.drawable.image_ke_don,
-        answer = "KEDON"
+        answer = "KÊ ĐƠN"
     ),
     Question(
         question = "LACDANQUETAGUI",
         photoDescription = R.drawable.image_lac_dan,
-        answer = "LACDAN"
+        answer = "LẠC ĐÀN"
     ),
     Question(
         question = "MENMOMKTHUONGI",
         photoDescription = R.drawable.image_men_mo,
-        answer = "MENMO"
+        answer = "MẾN MỘ"
     ),
     Question(
         question = "MIQUANMEUKHILA",
         photoDescription = R.drawable.image_mi_quan,
-        answer = "MIQUAN"
+        answer = "MĨ QUAN"
     ),
     Question(
         question = "NEMDAGIAUTAYKHONGTHETHAYNGUOI",
         photoDescription = R.drawable.image_nem_da_giau_tay,
-        answer = "NEMDAGIAUTAY"
+        answer = "NÉM ĐÁ GIẤU TAY"
     ),
     Question(
         question = "NOITHATBAITINHKINH",
         photoDescription = R.drawable.image_noi_that,
-        answer = "NOITHAT"
+        answer = "NỘI THẤT"
     ),
     Question(
         question = "SOCTRANGLOKEBHAU",
         photoDescription = R.drawable.image_soc_trang,
-        answer = "SOCTRANG"
+        answer = "SÓC TRĂNG"
     ),
     Question(
         question = "THANBIPOLEANHTY",
         photoDescription = R.drawable.image_than_bi,
-        answer = "THANBI"
+        answer = "THẦN BÍ"
+    ),
+    Question(
+        question = "NEODONPOLEJETAO",
+        photoDescription = R.drawable.image_neo_don,
+        answer = "NEO ĐƠN"
+    ),
+    Question(
+        question = "PHICONGHUEIAUMOL",
+        photoDescription = R.drawable.image_phi_cong,
+        answer = "PHI CÔNG"
     ),
 )
 
@@ -236,4 +248,16 @@ fun GridLayout.countTextView(): Int {
         }
     }
     return textViewCount
+}
+
+fun removeDiacritics(input: String): String {
+    var result = Normalizer.normalize(input, Normalizer.Form.NFD)
+    val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
+    result = pattern.matcher(result).replaceAll("")
+
+    // Thay thế thủ công Đ/đ vì Normalizer không xử lý được
+    result = result.replace('Đ', 'D')
+    result = result.replace('đ', 'd')
+
+    return result
 }
