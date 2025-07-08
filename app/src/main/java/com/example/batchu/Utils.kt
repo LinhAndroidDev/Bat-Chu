@@ -1,6 +1,8 @@
 package com.example.batchu
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.GridLayout
@@ -196,7 +198,7 @@ val questions = listOf(
         answer = "MĨ QUAN"
     ),
     Question(
-        question = "NEMDAGIAUTAYKHONGTHETHAYNGUOI",
+        question = "NEMDAGIAUTAYKHONGTHETHAY",
         photoDescription = R.drawable.image_nem_da_giau_tay,
         answer = "NÉM ĐÁ GIẤU TAY"
     ),
@@ -260,4 +262,29 @@ fun removeDiacritics(input: String): String {
     result = result.replace('đ', 'd')
 
     return result
+}
+
+@SuppressLint("ClickableViewAccessibility")
+fun View.onClickEffect(click: () -> Unit) {
+    setOnTouchListener { v, event ->
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                v.animate().scaleX(0.85f).scaleY(0.85f).setDuration(100).start()
+            }
+
+            MotionEvent.ACTION_UP -> {
+                v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
+            }
+
+            MotionEvent.ACTION_CANCEL -> {
+                // Nếu người dùng kéo ra ngoài button
+                v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
+            }
+        }
+        false // return true để xử lý toàn bộ touch và tránh gọi onClick tự động
+    }
+
+    setOnClickListener {
+        click.invoke()
+    }
 }

@@ -3,7 +3,6 @@ package com.example.batchu
 import android.annotation.SuppressLint
 import android.media.SoundPool
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private var soundPool: SoundPool? = null
     private var winSound: Int = 0
     
-    @SuppressLint("InflateParams", "MissingInflatedId")
+    @SuppressLint("InflateParams", "MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         resetGame()
 
-        binding?.reset?.setOnClickListener {
+        binding?.reset?.onClickEffect {
             resetGame()
         }
     }
@@ -197,12 +196,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
     
+    @SuppressLint("SetTextI18n")
     private fun resetGame() {
         if (indexQuestion >= questionGames.size - 1) {
             indexQuestion = 0
         } else {
             indexQuestion++
         }
+        binding?.txtQuestionQuantity?.text = "Câu ${indexQuestion + 1} / ${questionGames.size}"
         question = questionGames[indexQuestion]
 
         // Reset game về trạng thái ban đầu

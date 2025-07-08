@@ -40,12 +40,25 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <Button
+    <ImageView
         android:id="@+id/reset"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
-        android:text="Câu tiếp theo"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_next_question"
         android:layout_alignParentEnd="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"/>
+
+    <TextView
+        android:id="@+id/txtQuestionQuantity"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:text="Câu 16 / 20"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:fontFamily="@font/font_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </RelativeLayout>
