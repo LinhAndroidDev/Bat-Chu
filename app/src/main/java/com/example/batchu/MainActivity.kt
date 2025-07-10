@@ -3,12 +3,20 @@ package com.example.batchu
 import android.annotation.SuppressLint
 import android.media.SoundPool
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.batchu.databinding.ActivityMainBinding
 import com.example.batchu.models.Question
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
@@ -34,6 +42,8 @@ class MainActivity : AppCompatActivity() {
     private var celebration: KonfettiView? = null
     private var soundPool: SoundPool? = null
     private var winSound: Int = 0
+    private var rewardedAd: RewardedAd? = null
+    private var isLoading = false
     
     @SuppressLint("InflateParams", "MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +59,73 @@ class MainActivity : AppCompatActivity() {
 
         binding?.reset?.onClickEffect {
             resetGame()
+//            showRewardedAd()
+        }
+
+        loadBannerAd()
+        loadRewardedAd()
+    }
+
+    private fun loadBannerAd() {
+        MobileAds.initialize(this)
+        val adRequest = AdRequest.Builder().build()
+        binding?.adView?.loadAd(adRequest)
+    }
+
+    private fun loadRewardedAd() {
+        if (isLoading || rewardedAd != null) return
+
+        isLoading = true
+        val adRequest = AdRequest.Builder().build()
+        RewardedAd.load(
+            this,
+            getString(R.string.admob_rewarded_ad_unit_id), // Test ad unit ID
+            adRequest,
+            object : RewardedAdLoadCallback() {
+                override fun onAdLoaded(ad: RewardedAd) {
+                    rewardedAd = ad
+                    isLoading = false
+                    Log.d("AdMob", "Rewarded ad loaded.")
+                }
+
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Log.d("AdMob", "Rewarded ad failed to load: ${adError.message}")
+                    rewardedAd = null
+                    isLoading = false
+                }
+            }
+        )
+    }
+
+    private fun showRewardedAd() {
+        rewardedAd?.let { ad ->
+            ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdShowedFullScreenContent() {
+                    Log.d("AdMob", "Ad showed fullscreen content.")
+                    rewardedAd = null // Set lại để load mới
+                }
+
+                override fun onAdDismissedFullScreenContent() {
+                    Log.d("AdMob", "Ad dismissed.")
+                    loadRewardedAd()
+                }
+
+                override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                    Log.d("AdMob", "Ad failed to show.")
+                    loadRewardedAd()
+                }
+            }
+
+            ad.show(this) { rewardItem ->
+                val amount = rewardItem.amount
+                val type = rewardItem.type
+                Log.d("AdMob", "User earned reward: $amount $type")
+
+                // TODO: Trao thưởng cho người dùng ở đây
+            }
         }
     }
-    
+
     private fun moveItemToAnswer(clickedView: View, character: String) {
         // Tạo view mới để di chuyển
         val movingView = layoutInflater.inflate(R.layout.item_suggest, binding?.main, false)
