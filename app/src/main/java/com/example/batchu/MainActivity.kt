@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.batchu.databinding.ActivityMainBinding
 import com.example.batchu.models.Question
 import com.google.android.gms.ads.AdError
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     private var winSound: Int = 0
     private var rewardedAd: RewardedAd? = null
     private var isLoading = false
+    private var quantityRuby = 0
     
     @SuppressLint("InflateParams", "MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,8 +60,12 @@ class MainActivity : AppCompatActivity() {
         resetGame()
 
         binding?.reset?.onClickEffect {
+            binding?.reset?.isVisible = false
             resetGame()
-//            showRewardedAd()
+        }
+
+        binding?.useSuggest?.setOnClickListener {
+            showRewardedAd()
         }
 
         loadBannerAd()
@@ -121,7 +127,8 @@ class MainActivity : AppCompatActivity() {
                 val type = rewardItem.type
                 Log.d("AdMob", "User earned reward: $amount $type")
 
-                // TODO: Trao thưởng cho người dùng ở đây
+                quantityRuby += amount
+                binding?.txtRuby?.text = quantityRuby.toString()
             }
         }
     }
@@ -264,6 +271,7 @@ class MainActivity : AppCompatActivity() {
                     answerView.text = s
                 }
             }
+            binding?.reset?.isVisible = true
         } else {
 //          Sai - có thể reset hoặc hiển thị thông báo
             binding?.viewAnswer?.shakeView()

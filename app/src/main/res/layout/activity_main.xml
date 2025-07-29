@@ -43,13 +43,42 @@
 
     <ImageView
         android:id="@+id/reset"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginTop="20dp"
         android:importantForAccessibility="no"
         android:src="@drawable/ic_next_question"
         android:layout_alignParentEnd="true"
+        android:layout_above="@+id/adView"
         android:layout_width="60dp"
-        android:layout_height="60dp"/>
+        android:layout_height="60dp"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtRuby"
+            android:layout_marginEnd="5dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_corner_10_stroke_2"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_gravity="end"
+            android:src="@drawable/ic_ruby"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:rotation="-30"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/txtQuestionQuantity"
@@ -71,4 +100,13 @@
         android:layout_height="wrap_content"
         ads:adSize="BANNER"
         ads:adUnitId="@string/admob_banner_ad_unit_id"/>
+
+    <ImageView
+        android:id="@+id/useSuggest"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_suggest"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
 </RelativeLayout>
