@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.core.view.isVisible
 import com.example.batchu.databinding.ActivityMainBinding
 import com.example.batchu.models.Question
@@ -255,6 +256,7 @@ class MainActivity : AppCompatActivity() {
         val answer = question.answer.replace(" ", "").lowercase()
         val removeDiacritics = removeDiacritics(answer)
         if (userAnswer.toString().lowercase() == removeDiacritics) {
+            disableViewAnswer()
             soundPool?.play(winSound, 1f, 1f, 1, 0, 1f)
             celebration = KonfettiView(this, null, 0)
             celebration?.setBackgroundResource(android.R.color.transparent)
@@ -323,6 +325,13 @@ class MainActivity : AppCompatActivity() {
         // Hiện lại tất cả view trong viewSuggest
         suggestViews.forEach { view ->
             view.visibility = View.VISIBLE
+        }
+    }
+
+    private fun disableViewAnswer() {
+        binding?.viewAnswer?.children?.forEach { view ->
+            view.isEnabled = false
+            view.setOnClickListener(null)
         }
     }
 }
